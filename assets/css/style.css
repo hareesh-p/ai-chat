@@ -138,40 +138,55 @@ body {
 .chat-window2 .hi-there .p2 {
   font-size: 12px;
 }
+/* Message container styles */
 .message-box {
   height: 60vh;
   width: 100%;
-  padding-right: 5px;
-  overflow: auto;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
+
+/* User message styles (first-chat) */
 .message-box .first-chat {
-  float: right; /* Change from right to left */
+  align-self: flex-end; /* Align to left */
+  max-width: 70%;
+  width: auto;
   background-color: #4c5aa1;
-  padding: 10px;
-  margin: 14px 0px;
-  border-radius: 5px;
+  padding: 12px 15px;
+  margin: 8px 0;
+  border-radius: 15px 15px 15px 0;
   color: white;
+  float: none; /* Remove float */
 }
+
 .message-box .first-chat p {
-  font-size: 12px;
+  font-size: 14px;
+  margin: 0;
   overflow-wrap: break-word;
 }
 
+/* AI message styles (second-chat) */
 .message-box .second-chat {
-  display: inline-block;
+  align-self: flex-start; /* Align to right */
+  max-width: 70%;
+  width: auto;
+  margin: 8px 0;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  float: none; /* Remove float */
 }
 
 .message-box .second-chat p {
-  font-size: 12px;
-  overflow-wrap: break-word;
-}
-.message-box .second-chat p {
-  float: left;
   background-color: #ecf1fb;
-  padding: 12px;
-  margin: 0px 5px;
-  border-radius: 10px;
+  padding: 12px 15px;
+  margin: 0;
+  border-radius: 15px 15px 0 15px;
   color: #000;
+  font-size: 14px;
+  float: none; /* Remove float */
 }
 
 .chat-window2 .input-box {

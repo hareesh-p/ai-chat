@@ -33,18 +33,17 @@ function openConversation() {
   }, 10);
 }
 
-//Gets the text from the input box(user)
 function userResponse() {
   let userText = document.getElementById("textInput").value;
 
   if (userText == "") {
     alert("Please type something!");
   } else {
-    document.getElementById("messageBox").innerHTML += `<div class="first-chat">
-      <p>${userText}</p>
-      <div class="arrow"></div>
-    </div>`;
-    // Remove audio play
+    document.getElementById("messageBox").innerHTML += `
+      <div class="first-chat">
+        <p>${userText}</p>
+      </div>
+    `;
 
     document.getElementById("textInput").value = "";
     var objDiv = document.getElementById("messageBox");
@@ -56,22 +55,16 @@ function userResponse() {
   }
 }
 
-//admin Response to user's message
 function adminResponse() {
   fetch("https://api.adviceslip.com/advice")
-    .then((response) => {
-      return response.json();
-    })
+    .then((response) => response.json())
     .then((adviceData) => {
       let Adviceobj = adviceData.slip;
-      document.getElementById(
-        "messageBox"
-      ).innerHTML += `<div class="second-chat">
-          <div class="circle" id="circle-mar"></div>
+      document.getElementById("messageBox").innerHTML += `
+        <div class="second-chat">
           <p>${Adviceobj.advice}</p>
-          <div class="arrow"></div>
-        </div>`;
-      // Remove audio play
+        </div>
+      `;
 
       var objDiv = document.getElementById("messageBox");
       objDiv.scrollTop = objDiv.scrollHeight;
