@@ -1,34 +1,40 @@
-let audio1 = new Audio(
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/clickUp.mp3"
-);
 function chatOpen() {
   document.getElementById("chat-open").style.display = "none";
   document.getElementById("chat-close").style.display = "block";
-  document.getElementById("chat-window1").style.display = "block";
-
-  audio1.load();
-  audio1.play();
+  const chatWindow1 = document.getElementById("chat-window1");
+  chatWindow1.style.display = "block";
+  // Add a small delay to ensure the display: block is processed before adding the show class
+  setTimeout(() => {
+    chatWindow1.classList.add("show");
+  }, 10);
 }
+
 function chatClose() {
   document.getElementById("chat-open").style.display = "block";
   document.getElementById("chat-close").style.display = "none";
-  document.getElementById("chat-window1").style.display = "none";
-  document.getElementById("chat-window2").style.display = "none";
-
-  audio1.load();
-  audio1.play();
+  const chatWindow1 = document.getElementById("chat-window1");
+  const chatWindow2 = document.getElementById("chat-window2");
+  chatWindow1.classList.remove("show");
+  chatWindow2.classList.remove("show");
+  setTimeout(() => {
+    chatWindow1.style.display = "none";
+    chatWindow2.style.display = "none";
+  }, 300); // Match this delay with the animation duration
 }
-function openConversation() {
-  document.getElementById("chat-window2").style.display = "block";
-  document.getElementById("chat-window1").style.display = "none";
 
-  audio1.load();
-  audio1.play();
+function openConversation() {
+  const chatWindow1 = document.getElementById("chat-window1");
+  const chatWindow2 = document.getElementById("chat-window2");
+  chatWindow2.style.display = "block";
+  chatWindow1.classList.remove("show");
+  setTimeout(() => {
+    chatWindow2.classList.add("show");
+    chatWindow1.style.display = "none";
+  }, 10);
 }
 
 //Gets the text from the input box(user)
 function userResponse() {
-  console.log("response");
   let userText = document.getElementById("textInput").value;
 
   if (userText == "") {
@@ -38,11 +44,7 @@ function userResponse() {
       <p>${userText}</p>
       <div class="arrow"></div>
     </div>`;
-    let audio3 = new Audio(
-      "https://prodigits.co.uk/content/ringtones/tone/2020/alert/preview/4331e9c25345461.mp3"
-    );
-    audio3.load();
-    audio3.play();
+    // Remove audio play
 
     document.getElementById("textInput").value = "";
     var objDiv = document.getElementById("messageBox");
@@ -54,10 +56,8 @@ function userResponse() {
   }
 }
 
-//admin Respononse to user's message
+//admin Response to user's message
 function adminResponse() {
-  
-
   fetch("https://api.adviceslip.com/advice")
     .then((response) => {
       return response.json();
@@ -71,11 +71,7 @@ function adminResponse() {
           <p>${Adviceobj.advice}</p>
           <div class="arrow"></div>
         </div>`;
-      let audio3 = new Audio(
-        "https://downloadwap.com/content2/mp3-ringtones/tone/2020/alert/preview/56de9c2d5169679.mp3"
-      );
-      audio3.load();
-      audio3.play();
+      // Remove audio play
 
       var objDiv = document.getElementById("messageBox");
       objDiv.scrollTop = objDiv.scrollHeight;
@@ -88,7 +84,6 @@ function adminResponse() {
 //press enter on keyboard and send message
 addEventListener("keypress", (e) => {
   if (e.keyCode === 13) {
-    
     const e = document.getElementById("textInput");
     if (e === document.activeElement) {
       userResponse();
