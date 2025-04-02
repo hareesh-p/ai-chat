@@ -1,6 +1,4 @@
-# Popup Chat window (chat bot) using html,css,js
-Website link : https://krishnaprasadek.github.io/Popup-chat-window/
-
+# Chat Bot UI with Adviceslp API
 
 A Complete Responsive homepage with a navigation bar and Chat Popup.
 Chat by clicking on the bottom-right floating-action-button.
