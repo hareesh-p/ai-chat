@@ -217,12 +217,15 @@ body {
   flex-basis: 100%;
 }
 .chat-window2 .input-box .write-reply {width: 100%;}
-.chat-window2 .input-box .write-reply input[type="text"] {
-  border: none;
+.chat-window2 .input-box .write-reply input[type="textarea"] {
   outline: none;
   font-size: 18px;
   width: 100%;
-  height: 80px;
+  min-height: 80px;
+  border: 1px solid;
+  padding: 20px;
+  border-radius: 40px;
+}
 }
 .chat-window2 .input-box .send-button {
   border: none;
