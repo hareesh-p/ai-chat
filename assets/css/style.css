@@ -222,10 +222,12 @@ body {
   font-size: 18px;
   width: 100%;
   min-height: 80px;
+  max-height: 400px; /* Add max-height */
   border: 1px solid;
   padding: 20px;
   border-radius: 40px;
-}
+  resize: none; /* Disable manual resizing */
+  overflow-y: auto; /* Enable vertical scrollbar */
 }
 .chat-window2 .input-box .send-button {
   border: none;
