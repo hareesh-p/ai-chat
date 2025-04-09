@@ -1,5 +1,3 @@
-// Existing code...
-
 function chatOpen() {
   document.getElementById("chat-open").style.display = "none";
   document.getElementById("chat-close").style.display = "block";
@@ -127,17 +125,6 @@ function adminResponse() {
       console.log(error);
     });
 }
-
-function autoResizeTextarea() {
-  const textarea = document.getElementById('textInput');
-  textarea.style.height = 'auto';
-  textarea.style.height = `${Math.min(textarea.scrollHeight, 400)}px`;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const textarea = document.getElementById('textInput');
-  textarea.addEventListener('input', autoResizeTextarea);
-});
 
 addEventListener("keypress", (e) => {
   if (e.keyCode === 13) {

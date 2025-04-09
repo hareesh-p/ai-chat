@@ -217,18 +217,16 @@ body {
   flex-basis: 100%;
 }
 .chat-window2 .input-box .write-reply {width: 100%;}
-.chat-window2 .input-box .write-reply input[type="textarea"] {
+.chat-window2 .input-box .write-reply textarea {
   outline: none;
   font-size: 18px;
   width: 100%;
-  min-height: 80px;
-  max-height: 400px; /* Add max-height */
+  height: 63px;
   border: 1px solid;
   padding: 20px;
   border-radius: 40px;
-  resize: none; /* Disable manual resizing */
-  overflow-y: auto; /* Enable vertical scrollbar */
 }
+
 .chat-window2 .input-box .send-button {
   border: none;
   outline: none;
