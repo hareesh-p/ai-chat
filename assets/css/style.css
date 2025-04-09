@@ -207,14 +207,12 @@ body {
 }
 .chat-window2 .input-box {
   font-size: 12px;
-  bottom: 0;
-  left: 0;
-  right: 0;
   padding: 0px 30px;
   padding-bottom: 18px;
-  border-top: 1px solid lightgray;
   display: flex;
-  flex-basis: 100%;
+  max-width: 900px;
+  margin: 0px auto;
+  column-gap: 15px;
 }
 .chat-window2 .input-box .write-reply {width: 100%;}
 .chat-window2 .input-box .write-reply textarea {
@@ -225,6 +223,9 @@ body {
   border: 1px solid;
   padding: 20px;
   border-radius: 40px;
+  resize: none;
+  font-family: 'Montserrat';
+  font-size: 16px;
 }
 
 .chat-window2 .input-box .send-button {
@@ -239,7 +240,7 @@ body {
   background-color: transparent;
   cursor: pointer;
   outline: none;
-  padding: 13px 15px;
+  padding: 16px 18px;
   border: 1px solid;
   border-radius: 50px;
 }
