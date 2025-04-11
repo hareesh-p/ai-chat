@@ -1,21 +1,27 @@
 function openChatWindow2() {
   const chatWindow2 = document.getElementById("chat-window2");
+  const chatOverlay = document.getElementById("chat-overlay");
 
   chatWindow2.style.display = "block";
+  chatOverlay.style.display = "block"; // Show the overlay
 
   setTimeout(() => {
     chatWindow2.classList.add("show");
+    chatOverlay.classList.add("show");
   }, 10);
 }
 
 function closeChatWindow2() {
   const chatWindow2 = document.getElementById("chat-window2");
+  const chatOverlay = document.getElementById("chat-overlay");
   const chatOpenButton = document.getElementById("chat-open");
 
   chatWindow2.classList.remove("show");
+  chatOverlay.classList.remove("show");
 
   setTimeout(() => {
     chatWindow2.style.display = "none";
+    chatOverlay.style.display = "none"; // Hide the overlay
     chatOpenButton.style.display = "block"; // Show the open button again
   }, 300);
 }
@@ -25,27 +31,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const chatCloseButton = document.getElementById("chat-close");
   chatCloseButton.addEventListener("click", closeChatWindow2);
 });
-
 function getTypingDelay(word) {
-  return 100 + (word.length * 30);
+  return 50 + word.length * 15;
 }
 
 function typeMessage(text, element) {
-  const words = text.split(' ');
+  const words = text.split(" ");
   let wordIndex = 0;
 
-  const typingSpan = document.createElement('span');
+  const typingSpan = document.createElement("span");
   element.appendChild(typingSpan);
 
   function typeNextWord() {
     if (wordIndex < words.length) {
-      typingSpan.textContent += words[wordIndex] + ' ';
+      typingSpan.textContent += words[wordIndex] + " ";
       wordIndex++;
 
       element.parentElement.parentElement.scrollTop =
         element.parentElement.parentElement.scrollHeight;
 
-      const nextDelay = getTypingDelay(words[wordIndex] || '');
+      const nextDelay = getTypingDelay(words[wordIndex] || "");
       setTimeout(typeNextWord, nextDelay);
     }
   }
@@ -67,26 +72,27 @@ function showTypingIndicator() {
   // Load Lottie animation
   lottie.loadAnimation({
     container: lottieContainer, // The HTML element to render the animation in
-    renderer: 'svg', // Render as SVG for high-quality vector graphics
+    renderer: "svg", // Render as SVG for high-quality vector graphics
     loop: true, // Loop animation
     autoplay: true, // Start animation automatically
-    path: 'https://lottie.host/f9e47749-dde2-4684-94fd-02520ac89a94/WSgrkZwK7N.json' // Path to Lottie JSON file
+    path: "https://lottie.host/f9e47749-dde2-4684-94fd-02520ac89a94/WSgrkZwK7N.json", // Path to Lottie JSON file
   });
 
   messageBox.scrollTop = messageBox.scrollHeight;
 }
+
 function removeTypingIndicator() {
   const messageBox = document.getElementById("messageBox");
-  const typingIndicator = messageBox.querySelector('.typing-indicator');
+  const typingIndicator = messageBox.querySelector(".typing-indicator");
   if (typingIndicator) {
     typingIndicator.remove();
   }
 }
 
 function userResponse() {
-  let userText = document.getElementById("textInput").value;
+  const userText = document.getElementById("textInput").value;
 
-  if (userText == "") {
+  if (userText === "") {
     alert("Please type something!");
   } else {
     document.getElementById("messageBox").innerHTML += `
@@ -96,37 +102,63 @@ function userResponse() {
     `;
 
     document.getElementById("textInput").value = "";
-    var objDiv = document.getElementById("messageBox");
+    const objDiv = document.getElementById("messageBox");
     objDiv.scrollTop = objDiv.scrollHeight;
 
     setTimeout(() => {
-      adminResponse();
+      adminResponse(userText); // Pass the user's question to the adminResponse function
     }, 1000);
   }
 }
 
-// Predefined responses
-const predefinedResponses = [
-  "Hello! How can I assist you today?",
-  "Thank you for reaching out!",
-  "I'm here to help with any questions you have.",
-  "Can you provide more details about your inquiry?",
-  "Great to hear from you! Let me know how I can assist.",
-  "That's an interesting question. Let me think about it.",
-  "I appreciate your patience.",
-  "Let me check that for you.",
-  "Could you clarify your question a little more?",
-  "Thank you! I'll do my best to help you."
-];
+// Function to fetch response from the API
+async function fetchResponse(question) {
+  const apiUrl = "https://us-central1-cagen-dev.cloudfunctions.net/knowledge_base/search";
 
-function adminResponse() {
-  showTypingIndicator();
+  const requestBody = {
+    question, // Pass the question directly
+    client: "movate", // Use the specified client
+  };
 
-  setTimeout(() => {
-    removeTypingIndicator();
+  console.log("Sending API request to:", apiUrl);
+  console.log("Request Body:", JSON.stringify(requestBody));
 
-    const randomIndex = Math.floor(Math.random() * predefinedResponses.length);
-    const responseText = predefinedResponses[randomIndex];
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    console.log("Response Status:", response.status);
+    console.log("Response Headers:", response.headers);
+
+    const data = await response.json(); // Parse JSON response
+    console.log("Full API Response:", data);
+
+    if (data.result) {
+      return data.result; // Return the result field from the response
+    } else {
+      console.warn("API Response does not contain 'result' field.");
+      return "Sorry, no answer was found."; // Fallback if `result` is missing
+    }
+  } catch (error) {
+    console.error("Error fetching response:", error);
+    return "Sorry, I couldn't fetch a response at the moment."; // Fallback for errors
+  }
+
+}
+
+async function adminResponse(userQuestion) {
+  showTypingIndicator(); // Show typing indicator immediately
+
+  try {
+    const responseText = await fetchResponse(userQuestion); // Fetch response dynamically
+    console.log("Final Response from API:", responseText); // Debug: Log the final response
+
+    removeTypingIndicator(); // Remove typing indicator after API response is received
 
     const messageHTML = `
       <div class="second-chat">
@@ -136,14 +168,16 @@ function adminResponse() {
     document.getElementById("messageBox").innerHTML += messageHTML;
 
     const messageBox = document.getElementById("messageBox");
-    const lastMessage = messageBox.lastElementChild.querySelector('p');
+    const lastMessage = messageBox.lastElementChild.querySelector("p");
 
-    typeMessage(responseText, lastMessage);
+    typeMessage(responseText, lastMessage); // Display the response in the chat window
 
     messageBox.scrollTop = messageBox.scrollHeight;
-  }, 20000);
+  } catch (error) {
+    console.error("Error in adminResponse:", error);
+    removeTypingIndicator(); // Ensure the typing indicator is removed even if there is an error
+  }
 }
-
 // Auto-resize textarea function
 function autoResizeTextarea() {
   const textarea = document.getElementById("textInput");
