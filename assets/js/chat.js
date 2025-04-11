@@ -1,44 +1,29 @@
-function chatOpen() {
-  document.getElementById("chat-open").style.display = "none"; // Hide the open button
-  const chatWindow1 = document.getElementById("chat-window1");
-  chatWindow1.style.display = "block";
+function openChatWindow2() {
+  const chatWindow2 = document.getElementById("chat-window2");
+
+  chatWindow2.style.display = "block";
+
   setTimeout(() => {
-    chatWindow1.classList.add("show");
+    chatWindow2.classList.add("show");
   }, 10);
 }
 
-function chatClose() {
-  const chatWindow1 = document.getElementById("chat-window1");
+function closeChatWindow2() {
   const chatWindow2 = document.getElementById("chat-window2");
   const chatOpenButton = document.getElementById("chat-open");
 
-  chatWindow1.classList.remove("show");
   chatWindow2.classList.remove("show");
 
   setTimeout(() => {
-    chatWindow1.style.display = "none";
     chatWindow2.style.display = "none";
     chatOpenButton.style.display = "block"; // Show the open button again
   }, 300);
 }
 
-function openConversation() {
-  const chatWindow1 = document.getElementById("chat-window1");
-  const chatWindow2 = document.getElementById("chat-window2");
-
-  chatWindow2.style.display = "block";
-  chatWindow1.classList.remove("show");
-
-  setTimeout(() => {
-    chatWindow2.classList.add("show");
-    chatWindow1.style.display = "none";
-  }, 10);
-}
-
-// Attach event listeners for the new close button inside .chat-window2
+// Attach event listeners for the close button
 document.addEventListener("DOMContentLoaded", () => {
   const chatCloseButton = document.getElementById("chat-close");
-  chatCloseButton.addEventListener("click", chatClose);
+  chatCloseButton.addEventListener("click", closeChatWindow2);
 });
 
 function getTypingDelay(word) {
@@ -85,7 +70,7 @@ function showTypingIndicator() {
     renderer: 'svg', // Render as SVG for high-quality vector graphics
     loop: true, // Loop animation
     autoplay: true, // Start animation automatically
-    path: 'https://lottie.host/c0761623-e8fd-4488-a7da-b9cc5d1ed230/vp6SvMQM7V.json' // Path to Lottie JSON file
+    path: 'https://lottie.host/f9e47749-dde2-4684-94fd-02520ac89a94/WSgrkZwK7N.json' // Path to Lottie JSON file
   });
 
   messageBox.scrollTop = messageBox.scrollHeight;
@@ -156,7 +141,7 @@ function adminResponse() {
     typeMessage(responseText, lastMessage);
 
     messageBox.scrollTop = messageBox.scrollHeight;
-  }, 2000);
+  }, 20000);
 }
 
 // Auto-resize textarea function
@@ -183,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
   textarea.addEventListener("input", autoResizeTextarea);
 
   // Add event listener for keydown to handle Enter and Shift+Enter
-textarea.addEventListener("keydown", (event) => {
+  textarea.addEventListener("keydown", (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault(); // Prevent adding a new line
       userResponse(); // Trigger the message send function

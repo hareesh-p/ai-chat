@@ -68,61 +68,7 @@ body {
   border-top: 31px solid #fff;
 }
 
-/* chat window 1 */
-.chat-window {
-  width: 332px;
-  height: 280px;
-  border-radius: 10px;
-  background-color: #fff;
-  padding: 16px;
-  z-index: 9999999;
-  position: fixed;
-  bottom: 120px;
-  right: 54px;
-  display: none;
-  box-shadow: rgb(0 0 0 / 10%) 0px 1px 6px, rgb(0 0 0 / 20%) 0px 2px 24px;
-}
-.hi-there {
-  background-color: #7f8ac5;
-  color: #fff;
-  padding: 20px 30px;
-  border-radius: 5px;
-}
-.hi-there .p1 {
-  font-size: 20px;
-}
-.hi-there .p2 {
-  font-size: 13px;
-}
-.chat-window .start-conversation {
-  padding: 15px 24px;
-}
-.chat-window .start-conversation h1 {
-  font-size: 15px;
-}
-.chat-window .start-conversation p {
-  font-size: 12px;
-}
-.chat-window .start-conversation button {
-  cursor: pointer;
-  border: none;
-  border-radius: 20px;
-  padding: 7px 30px;
-  margin: 10px 0px;
-  background-color: #13a884;
-  color: white;
-}
-.chat-window .start-conversation button span {
-  font-size: 14px;
-}
-.chat-window .start-conversation button i {
-  font-size: 16px;
-  position: relative;
-  left: 6px;
-  top: 3px;
-}
-
-/* chat window 2 */
+/* chat window */
 .chat-window2 {
   display: none;
   border-radius: 10px;
@@ -137,9 +83,11 @@ body {
   box-shadow: rgb(0 0 0 / 10%) 0px 1px 6px, rgb(0 0 0 / 20%) 0px 2px 24px;
   overflow-y: auto; /* Add scroll if content overflows */
 }
-.chat-window2 .hi-there .p2 {
-  font-size: 12px;
+.chat-window2.show {
+  display: block;
+  opacity: 1;
 }
+
 /* Message container styles */
 .message-box {
   height: 60vh;
@@ -149,6 +97,19 @@ body {
   display: flex;
   flex-direction: column;
 }
+.hi-there {
+  background-color: #7f8ac5;
+  color: #fff;
+  padding: 20px 30px;
+  border-radius: 5px;
+}
+.hi-there .p1 {
+  font-size: 20px;
+}
+.hi-there .p2 {
+  font-size: 13px;
+}
+
 /* User message styles (first-chat) */
 .message-box .first-chat {
   align-self: flex-start;
@@ -156,7 +117,6 @@ body {
   width: auto;
   padding: 10px;
 }
-
 .message-box .first-chat p {
   font-size: 18px;
   margin: 0;
@@ -171,7 +131,7 @@ body {
    padding: 10px;
    margin: 8px 0;
    display: flex;
-   float: none; /* Remove float */
+   float: none; 
 }
 
 .message-box .second-chat p {
@@ -182,6 +142,7 @@ body {
   font-size: 14px;
   float: none; /* Remove float */
 }
+
 /* Add styles for the new loading animation */
 .typing-indicator {
   display: flex;
@@ -190,11 +151,13 @@ body {
   height: 120px; /* Adjust height for larger animations */
   margin: 10px 0;
 }
+.second-chat.typing-indicator {justify-content: flex-start;}
 
 .lottie-animation {
   width: 160px; /* Set width of the Lottie animation */
   height: 160px; /* Set height of the Lottie animation */
 }
+
 /* Animation for the bouncing dots */
 @keyframes bounce {
   0%, 80%, 100% {
@@ -204,7 +167,9 @@ body {
     transform: scale(1);
   }
 }
-.chat-window2 .input-box {
+
+/* Input box styles */
+.input-box {
   font-size: 12px;
   padding: 0px 30px;
   padding-bottom: 18px;
@@ -213,8 +178,10 @@ body {
   margin: 0px auto;
   column-gap: 15px;
 }
-.chat-window2 .input-box .write-reply {width: 100%;}
-.chat-window2 .input-box .write-reply textarea {
+.input-box .write-reply {
+  width: 100%;
+}
+.input-box .write-reply textarea {
   outline: none;
   font-size: 18px;
   width: 100%;
@@ -227,14 +194,14 @@ body {
   overflow-y: hidden; /* Initially hide the scrollbar */
   font-family: 'Montserrat', sans-serif;
 }
-.chat-window2 .input-box .send-button {
+.input-box .send-button {
   border: none;
   outline: none;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 }
-.chat-window2 .input-box .send-button button {
+.input-box .send-button button {
   border: none;
   background-color: #7f8ac5;
   cursor: pointer;
@@ -244,35 +211,18 @@ body {
   border-radius: 50px;
   border: 0;
 }
-.chat-window2 .input-box .send-button button i {
+.input-box .send-button button i {
   color: #fff;
   font-size: 20px;
   font-weight: bold;
   line-height: 1em;
 }
-.chat-window2 .input-box .surveysparrow img {
-  width: 15px;
-  margin-bottom: -4px;
-}
-.chat-window2 .input-box .surveysparrow p {
-  display: inline;
-  font-size: 10px;
-  color: #636262;
-}
-.chat-window2 .input-box .surveysparrow {
-  position: relative;
-  bottom: 28px;
-  right: -65px;
-}
 
-/* RESPONSIVE */
+/* Responsive styles */
 @media screen and (max-width: 396px) {
   .chat-window {
     right: 14px;
     bottom: 87px;
-  }
-  .hi-there {
-    padding: 12px 30px;
   }
   .chat-window2 {
     right: 14px;
@@ -287,48 +237,4 @@ body {
     bottom: 21px;
     right: 25px;
   }
-  .message-box .second-chat .arrow {
-  margin-left:41px;
-  }
-}
-/* Add these new animation keyframes at the end of your CSS file */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Update these existing classes */
-.chat-window {
-  /* ... existing styles ... */
-  display: none;
-  opacity: 0;
-  animation: fadeIn 0.3s ease-in-out forwards;
-}
-
-.chat-window.show {
-  display: block;
-  opacity: 1;
-}
-
-.chat-window2 {
-  /* ... existing styles ... */
-  display: none;
-  opacity: 0;
-  animation: fadeIn 0.3s ease-in-out forwards;
-}
-
-.chat-window2.show {
-  display: block;
-  opacity: 1;
-}
-
-/* Add animation to chat messages */
-.first-chat, .second-chat {
-  animation: fadeIn 0.3s ease-in-out;
 }
