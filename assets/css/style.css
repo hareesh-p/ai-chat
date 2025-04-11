@@ -12,29 +12,39 @@ body {
 
 /* chat open and close */
 .chat-bar-open {
-  text-align: center;
-  position: fixed;
-  bottom: 40px;
-  right: 50px;
+  position: fixed; /* Floating button */
+  bottom: 0; /* Distance from bottom */
+  left: 20%; /* Center horizontally */
+  right: 20%;
 }
 .chat-bar-close {
-  display: none;
-  text-align: center;
-  position: fixed;
-  bottom: 40px;
-  right: 50px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
 }
-.chat-bar-open .close,
-.chat-bar-close .close {
+.chat-bar-open .close{
   background-color: #fff;
-  width: 70px;
   cursor: pointer;
-  height: 70px;
   padding: 15px;
-  border-radius: 50%;
   border-style: none;
   vertical-align: middle;
   box-shadow: rgb(0 0 0 / 10%) 0px 1px 6px, rgb(0 0 0 / 20%) 0px 2px 24px;
+  width: 100%;
+  border-radius: 7px;
+  font-size: 20px;
+}
+.chat-bar-close button {
+  background-color: #fff;
+  cursor: pointer;
+  padding: 4px;
+  border-style: none;
+  vertical-align: middle;
+  box-shadow: rgb(0 0 0 / 10%) 0px 1px 6px, rgb(0 0 0 / 20%) 0px 2px 24px;
+  width: 100%;
+  border-radius: 50%;
+  font-size: 20px;
 }
 .chat-bar-close .close {
   width: 56px;
@@ -46,16 +56,6 @@ body {
 }
 .chat-bar-close .close i {
   font-size: 30px;
-}
-.chat-bar-open .close::after {
-  position: absolute;
-  content: "";
-  top: 43px;
-  left: 37px;
-  transform: rotate(-51deg);
-  border-left: 23px solid transparent;
-  border-right: 30px solid transparent;
-  border-top: 30px solid #fff;
 }
 .chat-bar-close .close::after {
   position: absolute;
@@ -130,10 +130,12 @@ body {
   padding: 16px;
   z-index: 9999999;
   position: fixed;
-  top: 120px;
-  right: 54px;
-  left: 54px;
+  top: 10%; /* 10% from the top of the viewport */
+  left: 5%; /* Center horizontally within the viewport */
+  right: 5%;
+  max-height: 80%; /* Prevent it from exceeding 80% of the viewport height */
   box-shadow: rgb(0 0 0 / 10%) 0px 1px 6px, rgb(0 0 0 / 20%) 0px 2px 24px;
+  overflow-y: auto; /* Add scroll if content overflows */
 }
 .chat-window2 .hi-there .p2 {
   font-size: 12px;
@@ -149,37 +151,30 @@ body {
 }
 /* User message styles (first-chat) */
 .message-box .first-chat {
-  align-self: flex-end;
+  align-self: flex-start;
   max-width: 70%;
   width: auto;
-  background-color: #4c5aa1;
-  padding: 12px 15px;
-  margin: 8px 0;
-  border-radius: 15px 15px 15px 0;
-  color: white;
-  float: none;
+  padding: 10px;
 }
 
 .message-box .first-chat p {
-  font-size: 14px;
+  font-size: 18px;
   margin: 0;
   overflow-wrap: break-word;
+  font-weight: bold;
 }
 
 /* AI message styles (second-chat) */
 .message-box .second-chat {
-  align-self: flex-start; /* Align to right */
-  max-width: 70%;
-  width: auto;
-  margin: 8px 0;
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: flex-start;
-  float: none; /* Remove float */
+   /* Align to right */
+   width: auto;
+   padding: 10px;
+   margin: 8px 0;
+   display: flex;
+   float: none; /* Remove float */
 }
 
 .message-box .second-chat p {
-  background-color: #ecf1fb;
   padding: 12px 15px;
   margin: 0;
   border-radius: 15px 15px 0 15px;
@@ -187,23 +182,27 @@ body {
   font-size: 14px;
   float: none; /* Remove float */
 }
-/* Add typing animation styles */
-@keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0; }
-  100% { opacity: 1; }
+/* Add styles for the new loading animation */
+.typing-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px; /* Adjust height for larger animations */
+  margin: 10px 0;
 }
 
-.typing-indicator p::after {
-  content: '|';
-  margin-left: 2px;
-  animation: blink 1s infinite;
+.lottie-animation {
+  width: 160px; /* Set width of the Lottie animation */
+  height: 160px; /* Set height of the Lottie animation */
 }
-
-/* Typing indicator specific styles */
-.typing-indicator p {
-  color: #666;
-  font-style: italic;
+/* Animation for the bouncing dots */
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
 }
 .chat-window2 .input-box {
   font-size: 12px;
@@ -219,15 +218,15 @@ body {
   outline: none;
   font-size: 18px;
   width: 100%;
-  height: 63px;
+  min-height: 63px; /* Minimum height is 63px */
+  max-height: 20vh; /* Maximum height is 20% of viewport height */
   border: 1px solid;
   padding: 20px;
   border-radius: 40px;
-  resize: none;
-  font-family: 'Montserrat';
-  font-size: 16px;
+  resize: none; /* Disable manual resizing */
+  overflow-y: hidden; /* Initially hide the scrollbar */
+  font-family: 'Montserrat', sans-serif;
 }
-
 .chat-window2 .input-box .send-button {
   border: none;
   outline: none;
@@ -237,17 +236,19 @@ body {
 }
 .chat-window2 .input-box .send-button button {
   border: none;
-  background-color: transparent;
+  background-color: #7f8ac5;
   cursor: pointer;
   outline: none;
-  padding: 16px 18px;
+  padding: 18px 20px;
   border: 1px solid;
   border-radius: 50px;
+  border: 0;
 }
 .chat-window2 .input-box .send-button button i {
-  color: grey;
+  color: #fff;
   font-size: 20px;
   font-weight: bold;
+  line-height: 1em;
 }
 .chat-window2 .input-box .surveysparrow img {
   width: 15px;
