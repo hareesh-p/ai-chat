@@ -117,7 +117,7 @@ async function fetchResponse(question) {
 
   const requestBody = {
     question, // Pass the question directly
-    client: "movate", // Use the specified client
+    client: "wp_movate", // Use the specified client
   };
 
   console.log("Sending API request to:", apiUrl);
