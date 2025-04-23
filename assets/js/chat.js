@@ -188,23 +188,22 @@ async function adminResponse(userQuestion) {
   showTypingIndicator(); // Show typing indicator immediately
 
   try {
-    const responseText = await fetchResponse(userQuestion); // Fetch response dynamically
-    console.log("Final Response from API:", responseText); // Debug: Log the final response
+    const responseMarkdown = await fetchResponse(userQuestion); // Fetch response dynamically
+    console.log("Final Response from API:", responseMarkdown); // Debug: Log the final response
 
     removeTypingIndicator(); // Remove typing indicator after API response is received
 
+    // Use `marked.parse()` to render Markdown
+    const htmlContent = marked.parse(responseMarkdown);
+
     const messageHTML = `
-      <div class="second-chat">
-        <p></p>
+      <div class="second-chat markdown-content">
+        ${htmlContent} <!-- Render Markdown to HTML -->
       </div>
     `;
     document.getElementById("messageBox").innerHTML += messageHTML;
 
     const messageBox = document.getElementById("messageBox");
-    const lastMessage = messageBox.lastElementChild.querySelector("p");
-
-    typeMessage(responseText, lastMessage); // Display the response in the chat window
-
     messageBox.scrollTop = messageBox.scrollHeight;
   } catch (error) {
     console.error("Error in adminResponse:", error);

@@ -141,7 +141,8 @@ body {
    padding: 10px;
    margin: 8px 0;
    display: flex;
-   float: none; 
+   float: none;
+   flex-direction: column;
 }
 
 .message-box .second-chat p {
@@ -227,6 +228,57 @@ body {
   font-size: 20px;
   font-weight: bold;
   line-height: 1em;
+}
+
+.markdown-content {
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.markdown-content h1,
+.markdown-content h2 {
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.markdown-content ul {
+  list-style-type: disc;
+  margin: 10px 0 10px 20px;
+  font-size: 14px;
+}
+
+.markdown-content ol {
+  list-style-type: decimal;
+  margin: 10px 0 10px 20px;
+}
+
+.markdown-content p {
+  margin: 10px 0;
+}
+
+.markdown-content code {
+  display: inline-block;
+  background-color: #f4f4f4;
+  color: #c7254e;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: monospace;
+}
+
+.markdown-content pre {
+  background-color: #f4f4f4;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+.markdown-content a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.markdown-content a:hover {
+  text-decoration: underline;
 }
 
 /* Responsive styles */
