@@ -1,3 +1,34 @@
+let animationData;
+
+// Preload the Lottie JSON file
+fetch("assets/animations/typing-indicator.json") // Use the local path
+  .then((response) => response.json())
+  .then((data) => {
+    animationData = data; // Store the preloaded JSON data
+    console.log("Lottie animation preloaded.");
+  })
+  .catch((error) => {
+    console.error("Error preloading Lottie JSON:", error);
+  });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const lottieContainer = document.getElementById("lottie-typing");
+
+  // Load the Lottie animation once the DOM is ready and JSON is preloaded
+  if (animationData) {
+    lottie.loadAnimation({
+      container: lottieContainer, // The HTML element to render the animation in
+      renderer: "svg", // Render as SVG for high-quality vector graphics
+      loop: true, // Loop animation
+      autoplay: true, // Start animation automatically
+      animationData: animationData, // Use the preloaded JSON data
+    });
+    console.log("Lottie animation loaded.");
+  } else {
+    console.warn("Lottie animation data not yet preloaded.");
+  }
+});
+
 function openChatWindow2() {
   const chatWindow2 = document.getElementById("chat-window2");
   const chatOverlay = document.getElementById("chat-overlay");
@@ -31,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const chatCloseButton = document.getElementById("chat-close");
   chatCloseButton.addEventListener("click", closeChatWindow2);
 });
+
 function getTypingDelay(word) {
   return 50 + word.length * 15;
 }
@@ -70,13 +102,15 @@ function showTypingIndicator() {
   const lottieContainer = document.getElementById("lottie-typing");
 
   // Load Lottie animation
-  lottie.loadAnimation({
-    container: lottieContainer, // The HTML element to render the animation in
-    renderer: "svg", // Render as SVG for high-quality vector graphics
-    loop: true, // Loop animation
-    autoplay: true, // Start animation automatically
-    path: "https://lottie.host/f9e47749-dde2-4684-94fd-02520ac89a94/WSgrkZwK7N.json", // Path to Lottie JSON file
-  });
+  if (animationData) {
+    lottie.loadAnimation({
+      container: lottieContainer,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      animationData: animationData, // Use the preloaded JSON data
+    });
+  }
 
   messageBox.scrollTop = messageBox.scrollHeight;
 }
@@ -148,7 +182,6 @@ async function fetchResponse(question) {
     console.error("Error fetching response:", error);
     return "Sorry, I couldn't fetch a response at the moment."; // Fallback for errors
   }
-
 }
 
 async function adminResponse(userQuestion) {
@@ -178,6 +211,7 @@ async function adminResponse(userQuestion) {
     removeTypingIndicator(); // Ensure the typing indicator is removed even if there is an error
   }
 }
+
 // Auto-resize textarea function
 function autoResizeTextarea() {
   const textarea = document.getElementById("textInput");
@@ -208,17 +242,4 @@ document.addEventListener("DOMContentLoaded", () => {
       userResponse(); // Trigger the message send function
     }
   });
-});
-document.addEventListener("DOMContentLoaded", () => {
-  const textarea = document.getElementById("textInput");
-  textarea.addEventListener("input", autoResizeTextarea);
-});
-
-addEventListener("keypress", (e) => {
-  if (e.keyCode === 13) {
-    const e = document.getElementById("textInput");
-    if (e === document.activeElement) {
-      userResponse();
-    }
-  }
 });
