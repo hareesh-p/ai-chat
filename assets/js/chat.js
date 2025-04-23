@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function openChatWindow2() {
+
   const chatWindow2 = document.getElementById("chat-window2");
   const chatOverlay = document.getElementById("chat-overlay");
 
@@ -40,6 +41,35 @@ function openChatWindow2() {
     chatWindow2.classList.add("show");
     chatOverlay.classList.add("show");
   }, 10);
+    // Send a background query to invalidate cache and fetch the latest information
+    const apiUrl = "https://us-central1-cagen-dev.cloudfunctions.net/knowledge_base/search";
+    const query = "Share every details about Movate";
+    const requestBody = {
+      question: query, // Query to invalidate cache and fetch latest info
+      client: "wp_movate", // Specify the client
+    };
+  
+    console.log("Sending background query to invalidate cache:", query);
+  
+    // Measure the time taken to receive the response
+    const startTime = performance.now();
+  
+    fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const endTime = performance.now();
+        console.log("Background query response received:", data);
+        console.log(`Time taken to receive response: ${(endTime - startTime).toFixed(2)}ms`);
+      })
+      .catch((error) => {
+        console.error("Error in background query:", error);
+      });
 }
 
 function closeChatWindow2() {
@@ -64,18 +94,20 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function getTypingDelay(word) {
-  return 50 + word.length * 15;
+  return 20 + word.length * 4;
 }
 
-function typeMessage(text, element) {
+async function typeMessage(text, element) {
+  console.log("Typing text:", text); // Debug: Log the full text to be typed
   const words = text.split(" ");
   let wordIndex = 0;
 
   const typingSpan = document.createElement("span");
   element.appendChild(typingSpan);
 
-  function typeNextWord() {
+  async function typeNextWord() {
     if (wordIndex < words.length) {
+      console.log(`Typing word: "${words[wordIndex]}"`); // Debug: Log each word being typed
       typingSpan.textContent += words[wordIndex] + " ";
       wordIndex++;
 
@@ -83,11 +115,14 @@ function typeMessage(text, element) {
         element.parentElement.parentElement.scrollHeight;
 
       const nextDelay = getTypingDelay(words[wordIndex] || "");
-      setTimeout(typeNextWord, nextDelay);
+      await new Promise((resolve) => setTimeout(resolve, nextDelay)); // Debug: Confirm delay
+      await typeNextWord(); // Continue typing
+    } else {
+      console.log("Typing effect finished."); // Debug: Indicate completion
     }
   }
 
-  typeNextWord();
+  await typeNextWord();
 }
 
 function showTypingIndicator() {
@@ -193,17 +228,21 @@ async function adminResponse(userQuestion) {
 
     removeTypingIndicator(); // Remove typing indicator after API response is received
 
-    // Use `marked.parse()` to render Markdown
-    const htmlContent = marked.parse(responseMarkdown);
-
-    const messageHTML = `
-      <div class="second-chat markdown-content">
-        ${htmlContent} <!-- Render Markdown to HTML -->
-      </div>
-    `;
-    document.getElementById("messageBox").innerHTML += messageHTML;
-
+    // Step 1: Create a container for typing the response
     const messageBox = document.getElementById("messageBox");
+    const messageDiv = document.createElement("div");
+    messageDiv.className = "second-chat markdown-content";
+    messageBox.appendChild(messageDiv);
+
+    // Step 2: Typing effect with plain Markdown text
+    await typeMessage(responseMarkdown, messageDiv);
+
+    // Step 3: Add fade-in transition for Markdown rendering
+    const htmlContent = marked.parse(responseMarkdown); // Convert Markdown to HTML
+    messageDiv.classList.add("fade-in"); // Add fade-in class
+    messageDiv.innerHTML = htmlContent; // Replace plain text with rendered HTML
+
+    // Step 4: Scroll to the bottom of the message box
     messageBox.scrollTop = messageBox.scrollHeight;
   } catch (error) {
     console.error("Error in adminResponse:", error);

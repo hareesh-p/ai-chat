@@ -143,6 +143,7 @@ body {
    display: flex;
    float: none;
    flex-direction: column;
+   align-items: start;
 }
 
 .message-box .second-chat p {
@@ -246,7 +247,9 @@ body {
   margin: 10px 0 10px 20px;
   font-size: 14px;
 }
-
+.markdown-content ul li {
+  list-style: disc;
+}
 .markdown-content ol {
   list-style-type: decimal;
   margin: 10px 0 10px 20px;
@@ -280,7 +283,19 @@ body {
 .markdown-content a:hover {
   text-decoration: underline;
 }
+/* Fade-in effect */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 /* Responsive styles */
 @media screen and (max-width: 396px) {
   .chat-window {
